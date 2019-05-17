@@ -34,12 +34,10 @@ app.post('/login', function(req, res) {
             if (err) throw err;
             if (result == '') {
                 //console.log('niente ' + result)
-                res.send(state);
+                res.send(false);
             } else {
                 console.log("WOOOOW FUNZICA LA LOGIN!! L'UTENTE " + user + " HA ESEGUITO L'ACCESSO!!");
-                console.log('cose ' + result)
-                state= 'ok'
-                res.send(state)
+                res.send(true)
             }
         });
     });
