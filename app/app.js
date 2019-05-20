@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 const bodyParser = require('body-parser')
 var mysql = require('mysql');
+var MongoClient = require('mongodb');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -20,8 +21,13 @@ app.get('/', (req, res) => {
 })
 
 
+
+
+/* LOGIN PER L'UTENTE */
+
 app.post('/login', function(req, res) {
 
+    console.log('LOGIN');
     var user = req.body.user;
     var pass = req.body.pass;
     var state = 'ko';
@@ -36,7 +42,7 @@ app.post('/login', function(req, res) {
                 //console.log('niente ' + result)
                 res.send(false);
             } else {
-                console.log("WOOOOW FUNZICA LA LOGIN!! L'UTENTE " + user + " HA ESEGUITO L'ACCESSO!!");
+                console.log("LOGIN DI " + user + "!!");
                 res.send(true)
             }
         });
@@ -44,8 +50,12 @@ app.post('/login', function(req, res) {
 })
 
 
+
+/* REGISTER PER L'UTENTE */
+
 app.post('/register', function(req, res) {
 
+    console.log('REGISTER');
     var name = req.body.name;
     var surname = req.body.surname;
     var email = req.body.email;
@@ -59,10 +69,37 @@ app.post('/register', function(req, res) {
         if (err) throw err;
         con.query('INSERT INTO Users(nome, cognome, email, username, password) VALUES("' + name + '","' + surname + '","' + email + '","' + user + '","' + pass + '")', function(err, result, fields) {
             if (err) throw err;
-            console.log("WOOOOW FUNZICA IL REGISTER!!  L'UTENTE " + user + " HA ESEGUITO LA REGISTRAZIONE!!");
+            console.log("REGISTER DI " + user + "!!");
             res.send(true)
         });
     });
+})
+
+
+
+/* GET VEICOLI */
+
+app.get('/getVeicoli', function(req, res) {
+
+    console.log('GET|VEICOLI');
+
+    MongoClient.connect('mongodb+srv://admin:admin@database-zsqmz.mongodb.net/test?retryWrites=true', function(err, db) {
+        if (err) {
+            throw err;
+        }
+        var dbo = db.db("MonoElettrici");
+        dbo.collection("veicoli").find({}).toArray(function(err, result) {
+            if (err) {
+                //console.log(JSON.stringify(result))
+                throw err;
+            }
+            console.log(result)
+            res.send(result);
+            db.close();
+        });
+
+    });
+
 })
 
 
