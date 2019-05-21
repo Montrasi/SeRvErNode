@@ -4,7 +4,6 @@ var express = require('express');
 var app = express();
 const bodyParser = require('body-parser')
 var mysql = require('mysql');
-var MongoClient = require('mongodb');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -73,35 +72,6 @@ app.post('/register', function(req, res) {
         });
     });
 })
-
-
-
-/* GET VEICOLI */
-
-app.get('/getVeicoli', function(req, res) {
-
-    console.log('GET | VEICOLI');
-
-    MongoClient.connect('mongodb+srv://admin:admin@database-zsqmz.mongodb.net/test?retryWrites=true', function(err, db) {
-        if (err) {
-            throw err;
-        }
-        var dbo = db.db("MonoElettrici");
-        dbo.collection("veicoli").find({}).toArray(function(err, result) {
-            if (err) {
-                //console.log(JSON.stringify(result))
-                throw err;
-            }
-            //console.log(result)
-            res.send(result);
-            db.close();
-        });
-
-    });
-
-})
-
-
 
 
 function Connection() {
