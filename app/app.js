@@ -30,7 +30,6 @@ app.post('/login', function(req, res) {
     console.log('LOGIN');
     var user = req.body.user;
     var pass = req.body.pass;
-    var state = 'ko';
 
     var con = Connection();
 
@@ -81,7 +80,7 @@ app.post('/register', function(req, res) {
 
 app.get('/getVeicoli', function(req, res) {
 
-    console.log('GET|VEICOLI');
+    console.log('GET | VEICOLI');
 
     MongoClient.connect('mongodb+srv://admin:admin@database-zsqmz.mongodb.net/test?retryWrites=true', function(err, db) {
         if (err) {
@@ -93,7 +92,7 @@ app.get('/getVeicoli', function(req, res) {
                 //console.log(JSON.stringify(result))
                 throw err;
             }
-            console.log(result)
+            //console.log(result)
             res.send(result);
             db.close();
         });
@@ -104,13 +103,14 @@ app.get('/getVeicoli', function(req, res) {
 
 
 
+
 function Connection() {
 
     var con = mysql.createConnection({
-        host: 'sql2.freemysqlhosting.net',
-        user: 'sql2291452',
-        password: 'tY7%yQ6*',
-        database: 'sql2291452'
+        host: 'remotemysql.com',
+        user: 'B5b6RK1eDK',
+        password: 'pXaUPBcrYJ',
+        database: 'B5b6RK1eDK'
     });
 
     return con;
@@ -119,5 +119,4 @@ function Connection() {
 
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
-
 
