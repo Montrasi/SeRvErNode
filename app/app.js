@@ -12,7 +12,6 @@ const cors = require('cors');
 app.use(cors());
 
 
-//https://www.freemysqlhosting.net/login/
 
 app.get('/', (req, res) => {
     res.send('Welcome to Node API');
