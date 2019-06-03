@@ -73,6 +73,31 @@ app.post('/register', function(req, res) {
 })
 
 
+
+
+
+/* SEGNALAZIONE */
+
+app.post('/sendProblem', function(req, res) {
+
+        console.log('SEGNALAZIONE');
+
+        MongoClient.connect('mongodb+srv://admin:admin@database-zsqmz.mongodb.net/test?retryWrites=true', function(err, db) {
+            if (err) {
+                throw err;
+            }
+            var dbo = db.db('MonoElettrici');
+            dbo.collection('segnalazioni').insertOne({ tag: req.body.tag, segnalazione: req.body.user }, function(err, result) {
+                if (err) throw err;
+                console.log('la segnalazione è avvenuta con successo!')
+                db.close();
+            })
+        })
+
+})
+
+
+
 function Connection() {
 
     var con = mysql.createConnection({
