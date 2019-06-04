@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 const bodyParser = require('body-parser')
 var mysql = require('mysql');
+var MongoClient = require('mongodb');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -87,9 +88,10 @@ app.post('/sendProblem', function(req, res) {
                 throw err;
             }
             var dbo = db.db('MonoElettrici');
-            dbo.collection('segnalazioni').insertOne({ tag: req.body.tag, segnalazione: req.body.user }, function(err, result) {
+            dbo.collection('segnalazioni').insertOne({ tag: req.body.tag, segnalazione: req.body.selProb }, function(err, result) {
                 if (err) throw err;
                 console.log('la segnalazione è avvenuta con successo!')
+                res.send(true);
                 db.close();
             })
         })
